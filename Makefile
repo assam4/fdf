@@ -15,7 +15,8 @@ INCLUDES = -I$(LIBFT) -I$(GNL) -I$(MLX) -I$(VALIDATION) -I$(MATRIX) -I$(GRAPHICS
 
 SRCS = $(GNL)get_next_line.c $(GNL)get_next_line_utils.c \
        $(VALIDATION)validation_utils.c	$(MATRIX)matrix_mem.c \
-       $(GRAPHICS)matrix_to_iso.c main.c $(GRAPHICS)draw.c
+       $(GRAPHICS)matrix_to_iso.c main.c $(GRAPHICS)draw.c \
+       $(GRAPHICS)draw_utils.c
 
 OBJS = $(SRCS:.c=.o)
 

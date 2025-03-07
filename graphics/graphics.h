@@ -48,6 +48,12 @@ typedef struct s_image
 }	t_image;
 
 void	set_iso_matrix(t_matrix *object);
+// draw_utils
 void	color_transform(t_bgr *bgr, int *color, int swap_source);
+void	set_color(t_bgr *current, const t_bgr *diff);
+int		get_drawline_params(int *distance, int *direction,
+			const t_point *start, const t_point *end);
+t_bgr	get_different(const t_bgr *start, const t_bgr *end, int max_steps);
+
 void	draw_matrix(t_image *img, t_matrix *object);
 #endif
