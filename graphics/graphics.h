@@ -16,6 +16,7 @@
 # include "matrix.h"
 # include "mlx.h"
 
+# define TITLE "FDF project by saslanya"
 # define WIN_WIDTH 1200
 # define WIN_HEIGHT 1000
 # define SPACING 10
@@ -32,21 +33,27 @@
 # define DEFAULT_MID_COLOR WHITE
 # define DEFAULT_DOWN_COLOR RED
 
-typedef struct s_window
-{
-	void	*mlx_connect;
-	void	*window;
-}	t_window;
+# define STEPS 5
+# define UNCHANGE 0
+# define ESC 65307
+# define UP 65362
+# define DOWN 65364
+# define RIGHT 65363
+# define LEFT 65361
 
-typedef struct s_image
+typedef struct s_data
 {
-	void	*img;
-	char	*addr;
-	int		pixel_sizeof;
-	int		row_len;
-	int		endian;
-}	t_image;
+	void		*mlx_connect;
+	void		*window;
+	void		*img;
+	char		*addr;
+	int			pixel_sizeof;
+	int			row_len;
+	int			endian;
+	t_matrix	*matrix;
+}	t_data;
 
+// matrix_isometric transform
 void	set_iso_matrix(t_matrix *object);
 // draw_utils
 void	color_transform(t_bgr *bgr, int *color, int swap_source);
@@ -54,6 +61,7 @@ void	set_color(t_bgr *current, const t_bgr *diff);
 int		get_drawline_params(int *distance, int *direction,
 			const t_point *start, const t_point *end);
 t_bgr	get_different(const t_bgr *start, const t_bgr *end, int max_steps);
-
-void	draw_matrix(t_image *img, t_matrix *object);
+void	draw_matrix(t_data *img);
+//matrix manipulations
+int		key_event(int key, void *object);
 #endif

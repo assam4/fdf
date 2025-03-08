@@ -16,4 +16,6 @@
 # include <stdio.h>
 # include "graphics.h"
 
+# define TITLE "FDF project by saslanya"
+
 #endif

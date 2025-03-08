@@ -1,6 +1,6 @@
 #include "graphics.h"
 
-static void	draw_pixel(t_image *img, t_point *pixel)
+static void	draw_pixel(t_data *img, t_point *pixel)
 {
 	int	*location;
 
@@ -14,7 +14,7 @@ static void	draw_pixel(t_image *img, t_point *pixel)
 	}
 }
 
-static void	draw_line(t_image *img, t_point current, const t_point *end)
+static void	draw_line(t_data *img, t_point current, const t_point *end)
 {
 	int		distance[3];
 	int		shifting[2];
@@ -41,12 +41,14 @@ static void	draw_line(t_image *img, t_point current, const t_point *end)
 	}
 }
 
-void	draw_matrix(t_image *img, t_matrix *object)
+void	draw_matrix(t_data *img)
 {
-	int	y;
-	int	x;
+	int			y;
+	int			x;
+	t_matrix	*object;
 
 	y = START;
+	object = img->matrix;
 	if (!object || !object->pixels)
 		return ;
 	while (y < object->rows)

@@ -1,124 +1,62 @@
-#include "fdf.h"
-/*
-int main(void)
+#include "graphics.h"
+
+static t_matrix	*get_matrix(const char *fname)
 {
-	int color = 0;
-	t_matrix *object = ft_calloc(1, sizeof(t_matrix));
-	if (object)
+	t_matrix	*matrix;
+	int		fd;
+	int		status;
+
+	matrix = ft_calloc(1, sizeof(t_matrix));
+	if (!matrix)
+		return (NULL);
+	fd = open(fname, O_RDONLY);
+	if (fd == -1)
+		return (free(matrix), NULL);
+	status = file_format_checking(fd, &(matrix->columns), &(matrix->rows));
+	close(fd);
+	if (status == SUCCESS)
 	{
-		int fd = open("test.txt", O_RDONLY);
-		if (fd < 2)
-			return (VALIDATION_ERROR);
-		int status = file_format_checking(fd, &(object->columns), &(object->rows));
+		printf("ROWS: %i\n COLUMNS: %i\n", matrix->rows, matrix->columns);
+		fd = open(fname, O_RDONLY);
+		if (fd == -1)
+			return (free(matrix), NULL);
+		status = initialize_matrix(fd, matrix);
 		close(fd);
-		if (status == SUCCESS)
-		{
-			printf("FILE IS VALID!\n");
-			printf("%i || %i \n", object->rows, object->columns);
-			fd = open("test.txt", O_RDONLY);
-			if (fd < 2)
-				return (VALIDATION_ERROR);
-			status = initialize_matrix(fd, object);
-			close(fd);
-			set_iso_matrix(object);
-			for (int y = 0; y < object->rows; ++y)
-			{
-				for(int x = 0; x < object->columns; ++x)
-				{
-					color_transform(&(object->pixels[y][x].color), &color, TO_INT);
-					printf("[%i %i %i color(int): %i] ", 
-						object->pixels[y][x].y,
-						object->pixels[y][x].x,
-						object->pixels[y][x].z,
-						color);
-				}
-			printf("\n");
-			}
-		}
-	deallocate_matrix(&object);
+		if (status != SUCCESS)
+			return (free(matrix), NULL);
+		set_iso_matrix(matrix);
+		return (matrix);
 	}
-	return (0);
+	return (NULL);
 }
 
-
-#include "graphics.h"
-
-int main(void)
+static void	set_win_config(t_data *data)
 {
-    t_window window;
-    t_image img;
-    t_matrix *matrix = ft_calloc(1, sizeof(t_matrix));  // Пример вашей матрицы
-
-    int	fd = open("test.txt",O_RDONLY);
-    initialize_matrix(fd, matrix);
-    set_iso_matrix(matrix);
- 
-    window.mlx_connect = mlx_init();
-    window.window = mlx_new_window(window.mlx_connect, WIN_WIDTH, WIN_HEIGHT, "FdF");
-    img.img = mlx_new_image(window.mlx_connect, WIN_WIDTH, WIN_HEIGHT);
-    img.addr = mlx_get_data_addr(img.img, &img.pixel_sizeof, &img.row_len, &img.endian);
-    draw_matrix(&img, matrix);
-    mlx_put_image_to_window(window.mlx_connect, window.window, img.img, 0, 0);
-
-    // Основной цикл обработки событий
-    mlx_loop(window.mlx_connect);
-
-    return 0;
+	data->mlx_connect = mlx_init();
+	data->window = mlx_new_window(data->mlx_connect, WIN_WIDTH, WIN_HEIGHT, TITLE);
+	data->img = mlx_new_image(data->mlx_connect, WIN_WIDTH, WIN_HEIGHT);
+	data->addr = mlx_get_data_addr(data->img, &(data->pixel_sizeof),
+				&(data->row_len), &(data->endian));
 }
-*/
-#include "graphics.h"
-#include <fcntl.h>   // Для open
-#include <unistd.h>  // Для close
-int close_window(int keycode, t_window *win)
+
+int main(int argc, char **argv)
 {
-    if (keycode == 65307) // ESC
+    t_data	*data;
+
+    data = ft_calloc(1, sizeof(t_data));
+    if (argc == 2 && data)
     {
-        mlx_destroy_window(win->mlx_connect, win->window);
-        exit(0);
-    }
-    return (0);
-}
-
-int main(void)
-{
-    t_window window;
-    t_image img;
-    t_matrix *matrix = ft_calloc(1, sizeof(t_matrix));
-
-    // Открываем и инициализируем матрицу
-    int fd = open("test.txt", O_RDONLY);
-    if (fd == -1)
-    {
-        perror("Failed to open file");
-        return (1);
-    }
-    file_format_checking(fd, &(matrix->columns), &(matrix->rows));
-    close(fd);
-    fd = open("test.txt", O_RDONLY);
-    initialize_matrix(fd, matrix);
-    printf("Matrix rows: %d, columns: %d\n", matrix->rows, matrix->columns);
-    set_iso_matrix(matrix);
-    close(fd);
-
-    // Инициализация MLX
-    window.mlx_connect = mlx_init();
-    window.window = mlx_new_window(window.mlx_connect, WIN_WIDTH, WIN_HEIGHT, "FdF");
-
-    // Создание изображения
-    img.img = mlx_new_image(window.mlx_connect, WIN_WIDTH, WIN_HEIGHT);
-    img.addr = mlx_get_data_addr(img.img, &img.pixel_sizeof, &img.row_len, &img.endian);
-
-    // Рисуем матрицу на изображении
-    draw_matrix(&img, matrix);
+	    data->matrix = get_matrix(argv[1]);
+	    if (!data->matrix)
+		    return (free(data), 1);
+	    set_win_config(data);
+    	draw_matrix(data);
 	printf("DONE\n");
-    // Отображаем изображение в окне
-    mlx_put_image_to_window(window.mlx_connect, window.window, img.img, 0, 0);
-
-    // Обработчик закрытия окна (например, при нажатии на ESC)
-    mlx_key_hook(window.window, close_window, &window);
-
-    // Основной цикл обработки событий
-    mlx_loop(window.mlx_connect);
-
+	mlx_put_image_to_window(data->mlx_connect, data->window, data->img, START, START);
+	mlx_hook(data->window, 2, 1L << 0, key_event, data);
+	mlx_loop(data->mlx_connect);
+	deallocate_matrix(&(data->matrix));
+	free(data);
+    }
     return (0);
 }
