@@ -13,21 +13,32 @@ static void	shifting_matrix(t_matrix *matrix, int col_shift, int row_shift)
 		{
 			matrix->pixels[y][x].y += row_shift;
 			matrix->pixels[y][x].x += col_shift;
-			printf("%i __ %i \n", matrix->pixels[y][x].y, matrix->pixels[y][x].x);
 			++x;
 		}
 		++y;
 	}
 }
 
-static void	update_view(t_data *data)
+static void	reset_img(t_data *data)
 {
-	if (data->img)
-		mlx_destroy_image(data->mlx_connect, data->img);
-	data->img = mlx_new_image(data->mlx_connect, WIN_WIDTH, WIN_HEIGHT);
-	draw_matrix(data);
-	mlx_put_image_to_window(data->mlx_connect, data->window
-				, data->img, START, START);
+	int	y;
+	int	x;
+	int	*location;
+
+	y = START;
+	while (y < WIN_HEIGHT)
+	{
+		x = START;
+		while (x < WIN_WIDTH)
+		{
+			location = (int *)(data->addr
+					+ (y * data->row_len + x
+						* (data->pixel_sizeof / SIZEOF_BYTE)));
+			*location = BLACK;
+			++x;
+		}
+		++y;
+	}
 }
 
 int	key_event(int key, void *object)
@@ -48,6 +59,9 @@ int	key_event(int key, void *object)
 		shifting_matrix(data->matrix, STEPS, UNCHANGE);
 	else if (key == LEFT)
 		shifting_matrix(data->matrix, -(STEPS), UNCHANGE);
-	update_view(data);
+	reset_img(data);
+	draw_matrix(data);
+	mlx_put_image_to_window(data->mlx_connect, data->window,
+			data->img, START, START);
 	return (SUCCESS);
 }
