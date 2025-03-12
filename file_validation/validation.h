@@ -3,8 +3,8 @@
 
 # include <fcntl.h>
 # include <math.h>
-# include "libft.h"
-# include "get_next_line.h"
+# include "../library/libft/libft.h"
+# include "../library/get_next_line/get_next_line.h"
 
 # define VALIDATION_ERROR 0
 # define ALLOCATION_ERROR -1

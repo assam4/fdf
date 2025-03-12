@@ -13,8 +13,8 @@
 #ifndef GRAPHICS_H
 # define GRAPHICS_H
 
-# include "matrix.h"
-# include "mlx.h"
+# include "../matrix/matrix.h"
+# include "../library/minilibx/mlx.h"
 
 # define TITLE "FDF project by saslanya"
 # define WIN_WIDTH 1200
@@ -23,15 +23,13 @@
 # define ANGLE_30 0.523599
 # define SIZEOF_BYTE 8
 
-# define TO_INT 33
-# define TO_BGR 22
 # define BLACK 0x000000
-# define WHITE 0xffffff
-# define RED 0x0000ff
-# define BLUE 0xff0000
-# define DEFAULT_UP_COLOR BLUE 
-# define DEFAULT_MID_COLOR WHITE
-# define DEFAULT_DOWN_COLOR RED
+# define BLUE 0x0000FF
+# define WHITE 0xFFFFFF
+# define BORDO 0x800000
+# define YELLOW 0xFFFF00
+# define GREEN 0x00FF00
+# define PURPLE 0x800080
 
 # define STEPS 5
 # define UNCHANGE 0
@@ -40,6 +38,8 @@
 # define DOWN 65364
 # define RIGHT 65363
 # define LEFT 65361
+# define ZOOM_IN 65451
+# define ZOOM_OUT 65453
 
 typedef struct s_data
 {
@@ -53,15 +53,11 @@ typedef struct s_data
 	t_matrix	*matrix;
 }	t_data;
 
-// matrix_isometric transform
-void	set_iso_matrix(t_matrix *object);
-// draw_utils
-void	color_transform(t_bgr *bgr, int *color, int swap_source);
-void	set_color(t_bgr *current, const t_bgr *diff);
-int		get_drawline_params(int *distance, int *direction,
-			const t_point *start, const t_point *end);
-t_bgr	get_different(const t_bgr *start, const t_bgr *end, int max_steps);
-void	draw_matrix(t_data *img);
+void     draw_line(t_data *img, t_point current, const t_point *end);
+void    color_transform(t_bgr *bgr, int *color, int swap_source);
+void	set_colors(t_matrix *matrix);
+void    draw_matrix(t_data *img, void (*transform)(t_matrix *m));
+void	to_isometric(t_matrix *matrix);
 //matrix manipulations
 int		key_event(int key, void *object);
 #endif

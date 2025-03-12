@@ -14,7 +14,36 @@ static void	draw_pixel(t_data *img, t_point *pixel)
 	}
 }
 
-static void	draw_line(t_data *img, t_point current, const t_point *end)
+static int	get_drawline_params(int *distance, int *direction,
+			const t_point *start, const t_point *end)
+{
+	distance[0] = abs(end->x - start->x);
+	distance[1] = abs(end->y - start->y);
+	distance[2] = distance[(distance[1] > distance[0])];
+	direction[0] = 1 - (2 * (start->x >= end->x));
+	direction[1] = 1 - (2 * (start->y >= end->y));
+	return (distance[0] - distance[1]);
+}
+
+static t_bgr	get_different(const t_bgr *start, const t_bgr *end, int max_steps)
+{
+	t_bgr	result;
+
+	result.blue = (end->blue - start->blue) / max_steps;
+	result.green = (end->green - start->green) / max_steps;
+	result.red = (end->red - start->red) / max_steps;
+	return (result);
+}
+
+static void	calc_color(t_bgr *current, const t_bgr *diff)
+{
+	current->blue += diff->blue;
+	current->green += diff->green;
+	current->red += diff->red;
+}
+
+
+void	draw_line(t_data *img, t_point current, const t_point *end)
 {
 	int		distance[3];
 	int		shifting[2];
@@ -25,7 +54,7 @@ static void	draw_line(t_data *img, t_point current, const t_point *end)
 	diff = get_different(&(current.color), &(end->color), distance[2]);
 	while (current.x != end->x || current.y != end->y)
 	{
-		set_color(&(current.color), &diff);
+		calc_color(&(current.color), &diff);
 		draw_pixel(img, &current);
 		shifting[1] = shifting[0] * 2;
 		if (shifting[1] > -distance[1])
@@ -38,30 +67,5 @@ static void	draw_line(t_data *img, t_point current, const t_point *end)
 			shifting[0] += distance[0];
 			current.y += direction[1];
 		}
-	}
-}
-
-void	draw_matrix(t_data *img)
-{
-	int			y;
-	int			x;
-	t_matrix	*object;
-
-	y = START;
-	object = img->matrix;
-	if (!object || !object->pixels)
-		return ;
-	while (y < object->rows)
-	{
-		x = START;
-		while (x < object->columns)
-		{
-			if (x < object->columns - 1)
-				draw_line(img, object->pixels[y][x], &object->pixels[y][x + 1]);
-			if (y < object->rows - 1)
-				draw_line(img, object->pixels[y][x], &object->pixels[y + 1][x]);
-			++x;
-		}
-		++y;
 	}
 }

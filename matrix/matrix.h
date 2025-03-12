@@ -13,16 +13,21 @@
 #ifndef MATRIX_H
 # define MATRIX_H
 
-# include "validation.h"
+# include "../file_validation/validation.h"
 
-typedef unsigned char	t_uchar;
-typedef unsigned int	t_uint;
+# define MIN_ZOOM 0.5
+# define MAX_ZOOM 10.0
+# define MIN_ZSCALE 0.5
+
+# define TO_INT 33
+# define TO_BGR 22
+# define SIZEOF_BYTE 8
 
 typedef struct s_bgr
 {
-	t_uchar		blue;
-	t_uchar		green;
-	t_uchar		red;
+	unsigned char	blue;
+	unsigned char	green;
+	unsigned char	red;
 }	t_bgr;
 
 typedef struct s_point
@@ -38,12 +43,15 @@ typedef struct s_matrix
 	t_point		**pixels;
 	int			columns;
 	int			rows;
+	int			shift_x;
+	int			shift_y;
 	float		zoom;
+	float		zscale;
 }	t_matrix;
 
-// creating matrix
-int		initialize_matrix(int fd, t_matrix *object);
-// dealloacting matrix
+int		initialize_matrix(int fd, t_matrix **matrix);
 void	deallocate_matrix(t_matrix **matrix);
+void	set_zoom(t_matrix *matrix, int width, int height, int spacing);
+void	set_zscale(t_matrix *matrix, int height);
 
 #endif

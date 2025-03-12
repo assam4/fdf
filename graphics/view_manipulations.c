@@ -1,24 +1,5 @@
 #include "graphics.h"
 
-static void	shifting_matrix(t_matrix *matrix, int col_shift, int row_shift)
-{
-	int	y;
-	int	x;
-
-	y = START;
-	while (y < matrix->rows)
-	{
-		x = START;
-		while (x < matrix->columns)
-		{
-			matrix->pixels[y][x].y += row_shift;
-			matrix->pixels[y][x].x += col_shift;
-			++x;
-		}
-		++y;
-	}
-}
-
 static void	reset_img(t_data *data)
 {
 	int	y;
@@ -52,15 +33,29 @@ int	key_event(int key, void *object)
 		exit(SUCCESS);
 	}
 	else if (key == UP)
-		shifting_matrix(data->matrix, UNCHANGE, -(STEPS));
+		data->matrix->shift_y -= STEPS;
 	else if (key == DOWN)
-		shifting_matrix(data->matrix, UNCHANGE, STEPS);
+		data->matrix->shift_y += STEPS;
 	else if (key == RIGHT)
-		shifting_matrix(data->matrix, STEPS, UNCHANGE);
+		data->matrix->shift_x += STEPS;
 	else if (key == LEFT)
-		shifting_matrix(data->matrix, -(STEPS), UNCHANGE);
+		data->matrix->shift_x -= STEPS;
+	else if (key == ZOOM_IN)
+	{
+		data->matrix->zoom += 0.2;
+		if (data->matrix->zoom > MAX_ZOOM)
+			data->matrix->zoom = MAX_ZOOM;
+	}
+	else if (key == ZOOM_OUT)
+	{
+		data->matrix->zoom -= 0.2;
+		if (data->matrix->zoom < MIN_ZOOM)
+			data->matrix->zoom = MIN_ZOOM;
+	}
+	else if (key == 'c')
+		set_colors(data->matrix);
 	reset_img(data);
-	draw_matrix(data);
+	draw_matrix(data, to_isometric);
 	mlx_put_image_to_window(data->mlx_connect, data->window,
 			data->img, START, START);
 	return (SUCCESS);

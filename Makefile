@@ -11,12 +11,11 @@ MLX = ./library/minilibx/
 VALIDATION = ./file_validation/
 MATRIX = ./matrix/
 GRAPHICS = ./graphics/
-INCLUDES = -I$(LIBFT) -I$(GNL) -I$(MLX) -I$(VALIDATION) -I$(MATRIX) -I$(GRAPHICS)
+INCLUDES = -I$(LIBFT) -I$(GNL) -I$(MLX) -I$(VALIDATION) -I$(MATRIX) 
 
-SRCS = $(GNL)get_next_line.c $(GNL)get_next_line_utils.c \
-       $(VALIDATION)validation_utils.c	$(MATRIX)matrix_mem.c \
-       $(GRAPHICS)matrix_to_iso.c main.c $(GRAPHICS)draw.c \
-       $(GRAPHICS)draw_utils.c $(GRAPHICS)view_manipulations.c
+SRCS = $(GNL)get_next_line.c $(GNL)get_next_line_utils.c $(VALIDATION)validation_utils.c \
+       $(MATRIX)matrix.c $(GRAPHICS)draw.c $(GRAPHICS)draw_utils.c $(GRAPHICS)view.c \
+       $(GRAPHICS)view_manipulations.c main.c
 
 OBJS = $(SRCS:.c=.o)
 

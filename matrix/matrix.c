@@ -12,23 +12,16 @@
 
 #include "matrix.h"
 
-static void	deallocate_pixels(t_point **pixels, size_t rows)
-{
-	while (pixels && rows--)
-	{
-		if (pixels[rows])
-			free(pixels[rows]);
-		pixels[rows] = NULL;
-	}
-	if (pixels)
-		free(pixels);
-}
-
 void	deallocate_matrix(t_matrix **matrix)
 {
+	int	row;
+
 	if (matrix && *matrix)
 	{
-		deallocate_pixels((*matrix)->pixels, (*matrix)->rows);
+		row = (*matrix)->rows;
+		while (--row >= 0)
+			free((*matrix)->pixels[row]);
+		free((*matrix)->pixels);
 		free(*matrix);
 		*matrix = NULL;
 	}
@@ -54,23 +47,55 @@ static int	set_col_z(const char *line, int current_y, t_matrix *object)
 	return (SUCCESS);
 }
 
-int	initialize_matrix(int fd, t_matrix *object)
+void	set_zoom(t_matrix *matrix, int width, int height, int spacing)
+{
+	float	mat_width;
+	float	mat_height;
+
+	mat_width = (matrix->columns - 1) * spacing;
+    	mat_height = (matrix->rows - 1) * spacing;
+	matrix->zoom = fmin((float)width / mat_width, (float)height / mat_height);
+	matrix->zoom *= 0.8;
+}
+
+void	set_zscale(t_matrix *matrix, int height)
+{
+	int		max_z;
+	int		y;
+	int		x;
+
+	y = -1;
+	max_z = 0;
+	while (++y < matrix->rows)
+	{
+		x = -1;
+		while (++x < matrix->columns)
+			if (abs(matrix->pixels[y][x].z) > max_z)
+				max_z = abs(matrix->pixels[y][x].z);
+	}
+	if (!max_z)
+		matrix->zscale = MIN_ZSCALE;
+	else
+		matrix->zscale = fmin(1.0, fmax(0.2, ((float)height / 4) / max_z));
+}
+
+int	initialize_matrix(int fd, t_matrix **matrix)
 {
 	int		y;
 	char	*line;
 
-	object->pixels = ft_calloc(object->rows, sizeof(t_point *));
-	if (!object->pixels)
-		return (deallocate_matrix(&object), ALLOCATION_ERROR);
+	(*matrix)->pixels = ft_calloc((*matrix)->rows, sizeof(t_point *));
+	if (!(*matrix)->pixels)
+		return (deallocate_matrix(matrix), ALLOCATION_ERROR);
 	y = -1;
-	while (++y < object->rows)
+	while (++y < (*matrix)->rows)
 	{
-		object->pixels[y] = ft_calloc(object->columns, sizeof(t_point));
+		(*matrix)->pixels[y] = ft_calloc((*matrix)->columns, sizeof(t_point));
 		line = get_next_line(fd);
-		if (!line || !object->pixels[y])
-			return (deallocate_matrix(&object), ALLOCATION_ERROR);
-		if (set_col_z(line, y, object) != SUCCESS)
-			return (free(line), deallocate_matrix(&object), ALLOCATION_ERROR);
+		if (!line || !(*matrix)->pixels[y])
+			return (deallocate_matrix(matrix), ALLOCATION_ERROR);
+		if (set_col_z(line, y, *matrix) != SUCCESS)
+			return (free(line), deallocate_matrix(matrix), ALLOCATION_ERROR);
 		free(line);
 	}
 	return (SUCCESS);

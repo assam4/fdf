@@ -13,30 +13,40 @@ void	color_transform(t_bgr *bgr, int *color, int swap_source)
 	}
 }
 
-void	set_color(t_bgr *current, const t_bgr *diff)
+static void	change_color(t_point *pixel)
 {
-	current->blue += diff->blue;
-	current->green += diff->green;
-	current->red += diff->red;
+	int	color;
+
+	color_transform(&(pixel->color), &color, TO_INT);
+	if (pixel->z > START && color == BLUE)
+		color = YELLOW;
+	else if (pixel->z > START)
+		color = BLUE;
+	else if (pixel->z == START && color == WHITE)
+		color = GREEN;
+	else if (pixel->z == START)
+		color = WHITE;
+	else if (pixel->z < START && color == BORDO)
+		color = PURPLE;
+	else if (pixel->z < START)
+		color = BORDO;
+	color_transform(&(pixel->color), &color, TO_BGR);
 }
 
-int	get_drawline_params(int *distance, int *direction,
-			const t_point *start, const t_point *end)
+void	set_colors(t_matrix *matrix)
 {
-	distance[0] = abs(end->x - start->x);
-	distance[1] = abs(end->y - start->y);
-	distance[2] = distance[(distance[1] > distance[0])];
-	direction[0] = 1 - (2 * (start->x >= end->x));
-	direction[1] = 1 - (2 * (start->y >= end->y));
-	return (distance[0] - distance[1]);
-}
+	int		y;
+	int		x;
+	t_point	*pixel;
 
-t_bgr	get_different(const t_bgr *start, const t_bgr *end, int max_steps)
-{
-	t_bgr	result;
-
-	result.blue = (end->blue - start->blue) / max_steps;
-	result.green = (end->green - start->green) / max_steps;
-	result.red = (end->red - start->red) / max_steps;
-	return (result);
+	y = -1;
+	while (++y < matrix->rows)
+	{
+		x = -1;
+		while (++x < matrix->columns)
+		{
+			pixel = &(matrix->pixels[y][x]);
+			change_color(pixel);
+		}
+        }
 }
