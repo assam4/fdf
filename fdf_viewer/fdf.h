@@ -16,6 +16,15 @@
 # define ZOOM_IN 65451
 # define ZOOM_OUT 65453
 
+# define CHANGE_COLORS 'c'
+# define ISOMETRIC 'i'
+# define PERSPECTIVE 'p'
+
+# define SUCCESS_EXIT 0
+# define FOPEN_ERR -1
+# define FORMAT_START '.'
+# define FILE_FORMAT ".fdf"
+
 t_matrix	*get_matrix(const char *fname);
 void		run_fdf(t_data *data);
 void		reset_img(t_data *data);

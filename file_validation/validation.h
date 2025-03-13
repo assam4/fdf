@@ -13,6 +13,12 @@
 # define IS_EQUAL 0
 # define SPACE ' '
 
+# define ZERO 0
+# define ONE 1
+# define TWO 2
+# define THREE 3
+# define FOUR 4
+
 int	file_format_checking(int fd, int *col, int *row);
 
 #endif

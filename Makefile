@@ -14,7 +14,7 @@ GRAPHICS = ./graphics/
 FDF = ./fdf_viewer/
 INCLUDES = -I$(LIBFT) -I$(GNL) -I$(MLX) -I$(VALIDATION) -I$(MATRIX) -I$(GRAPHICS) -I$(FDF)
 
-SRCS = $(GNL)get_next_line.c $(GNL)get_next_line_utils.c $(VALIDATION)validation_utils.c \
+SRCS = $(GNL)get_next_line.c $(GNL)get_next_line_utils.c $(VALIDATION)validation.c \
        $(MATRIX)matrix.c $(GRAPHICS)draw.c $(GRAPHICS)draw_utils.c $(GRAPHICS)view.c \
         $(FDF)/fdf.c  $(FDF)/fdf_utils.c main.c
 

@@ -16,12 +16,12 @@
 # include "validation.h"
 
 # define MIN_ZOOM 0.5
+# define ZOOM_STEP 0.2
 # define MAX_ZOOM 20.0
-# define MIN_ZSCALE 1.0
+# define ZOOM_COEFF 0.8
+# define MIN_ZSCALE 2.0
 
-# define TO_INT 33
-# define TO_BGR 22
-# define SIZEOF_BYTE 8
+# define LOOP_START -1
 
 typedef struct s_bgr
 {

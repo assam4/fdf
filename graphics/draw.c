@@ -17,12 +17,12 @@ static void	draw_pixel(t_data *img, t_point *pixel)
 static int	get_drawline_params(int *distance, int *direction,
 			const t_point *start, const t_point *end)
 {
-	distance[0] = abs(end->x - start->x);
-	distance[1] = abs(end->y - start->y);
-	distance[2] = distance[(distance[1] > distance[0])];
-	direction[0] = 1 - (2 * (start->x >= end->x));
-	direction[1] = 1 - (2 * (start->y >= end->y));
-	return (distance[0] - distance[1]);
+	distance[ZERO] = abs(end->x - start->x);
+	distance[ONE] = abs(end->y - start->y);
+	distance[TWO] = distance[(distance[ONE] > distance[ZERO])];
+	direction[ZERO] = ONE - (TWO * (start->x >= end->x));
+	direction[ONE] = ONE - (TWO * (start->y >= end->y));
+	return (distance[ZERO] - distance[ONE]);
 }
 
 static t_bgr	get_different(const t_bgr *start, const t_bgr *end
@@ -47,27 +47,27 @@ static t_bgr	get_different(const t_bgr *start, const t_bgr *end
 
 static void	draw_line(t_data *img, t_point current, const t_point *end)
 {
-	int		distance[3];
-	int		shifting[2];
-	int		direction[2];
+	int		distance[THREE];
+	int		shifting[TWO];
+	int		direction[TWO];
 	t_bgr	diff;
 
-	shifting[0] = get_drawline_params(distance, direction, &current, end);
-	diff = get_different(&(current.color), &(end->color), distance[2]);
+	shifting[ZERO] = get_drawline_params(distance, direction, &current, end);
+	diff = get_different(&(current.color), &(end->color), distance[TWO]);
 	while (current.x != end->x || current.y != end->y)
 	{
 		calc_color(&(current.color), &diff);
 		draw_pixel(img, &current);
-		shifting[1] = shifting[0] * 2;
-		if (shifting[1] > -distance[1])
+		shifting[ONE] = shifting[ZERO] * TWO;
+		if (shifting[ONE] > -distance[ONE])
 		{
-			shifting[0] -= distance[1];
-			current.x += direction[0];
+			shifting[ZERO] -= distance[ONE];
+			current.x += direction[ZERO];
 		}
-		if (shifting[1] <= distance[0])
+		if (shifting[ONE] <= distance[ZERO])
 		{
-			shifting[0] += distance[0];
-			current.y += direction[1];
+			shifting[ZERO] += distance[ZERO];
+			current.y += direction[ONE];
 		}
 	}
 }
@@ -80,18 +80,18 @@ void	draw_matrix(t_data *img, void (*transform)(t_matrix *m))
 
 	matrix = img->matrix;
 	transform(matrix);
-	y = -1;
+	y = LOOP_START;
 	while (++y < matrix->rows)
 	{
-		x = -1;
+		x = LOOP_START;
 		while (++x < matrix->columns)
 		{
-			if (x < matrix->columns - 1)
+			if (x < matrix->columns - ONE)
 				draw_line(img, matrix->pixels[y][x],
-					&(matrix->pixels[y][x + 1]));
-			if (y < matrix->rows - 1)
+					&(matrix->pixels[y][x + ONE]));
+			if (y < matrix->rows - ONE)
 				draw_line(img, matrix->pixels[y][x],
-					&(matrix->pixels[y + 1][x]));
+					&(matrix->pixels[y + ONE][x]));
 		}
 	}
 }

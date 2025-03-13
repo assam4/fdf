@@ -19,7 +19,7 @@ void	deallocate_matrix(t_matrix **matrix)
 	if (matrix && *matrix)
 	{
 		row = (*matrix)->rows;
-		while (--row >= 0)
+		while (--row >= START)
 			free((*matrix)->pixels[row]);
 		free((*matrix)->pixels);
 		free(*matrix);
@@ -32,7 +32,7 @@ static int	set_col_z(const char *line, int current_y, t_matrix *object)
 	char	*str;
 	int		x;
 
-	x = -1;
+	x = LOOP_START;
 	while (++x < object->columns)
 	{
 		object->pixels[current_y][x].z = ft_atoi(line);
@@ -52,10 +52,10 @@ void	set_zoom(t_matrix *matrix, int width, int height, int spacing)
 	float	mat_width;
 	float	mat_height;
 
-	mat_width = (matrix->columns - 1) * spacing;
-	mat_height = (matrix->rows - 1) * spacing;
+	mat_width = (matrix->columns - ONE) * spacing;
+	mat_height = (matrix->rows - ONE) * spacing;
 	matrix->zoom = fmin((float)width / mat_width, (float)height / mat_height);
-	matrix->zoom *= 0.8;
+	matrix->zoom *= ZOOM_COEFF;
 }
 
 void	set_zscale(t_matrix *matrix, int height)
@@ -64,11 +64,11 @@ void	set_zscale(t_matrix *matrix, int height)
 	int		y;
 	int		x;
 
-	y = -1;
-	max_z = 0;
+	y = LOOP_START;
+	max_z = START;
 	while (++y < matrix->rows)
 	{
-		x = -1;
+		x = LOOP_START;
 		while (++x < matrix->columns)
 			if (abs(matrix->pixels[y][x].z) > max_z)
 				max_z = abs(matrix->pixels[y][x].z);
@@ -76,7 +76,8 @@ void	set_zscale(t_matrix *matrix, int height)
 	if (!max_z)
 		matrix->zscale = MIN_ZSCALE;
 	else
-		matrix->zscale = fmin(2.0, fmax(0.2, ((float)height / 4) / max_z));
+		matrix->zscale = fmin(MIN_ZSCALE,
+				fmax(ZOOM_STEP, ((float)height / FOUR) / max_z));
 }
 
 int	initialize_matrix(int fd, t_matrix **matrix)
@@ -87,7 +88,7 @@ int	initialize_matrix(int fd, t_matrix **matrix)
 	(*matrix)->pixels = ft_calloc((*matrix)->rows, sizeof(t_point *));
 	if (!(*matrix)->pixels)
 		return (deallocate_matrix(matrix), ALLOCATION_ERROR);
-	y = -1;
+	y = LOOP_START;
 	while (++y < (*matrix)->rows)
 	{
 		(*matrix)->pixels[y] = ft_calloc((*matrix)->columns, sizeof(t_point));

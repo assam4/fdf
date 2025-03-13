@@ -16,7 +16,6 @@
 # include "matrix.h"
 # include "mlx.h"
 
-//window utils
 # define TITLE "FDF project by saslanya"
 # define WIN_WIDTH 1200
 # define WIN_HEIGHT 1000
@@ -32,6 +31,8 @@
 # define MIN_DIVISOR 0.01
 
 // colors in hex (bgr)
+# define TO_INT 33
+# define TO_BGR 22
 # define BLACK 0x000000
 # define BLUE 0x0000FF
 # define WHITE 0xFFFFFF
@@ -39,6 +40,10 @@
 # define YELLOW 0xFFFF00
 # define GREEN 0x00FF00
 # define PURPLE 0x800080
+
+# define ROTATE_X 'x'
+# define ROTATE_Y 'y'
+# define ROTATE_Z 'z'
 
 typedef struct s_data
 {
