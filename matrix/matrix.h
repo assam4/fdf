@@ -45,6 +45,9 @@ typedef struct s_matrix
 	int			rows;
 	int			shift_x;
 	int			shift_y;
+	float		rotate_x;
+	float		rotate_y;
+	float		rotate_z;
 	float		zoom;
 	float		zscale;
 }	t_matrix;

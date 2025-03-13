@@ -60,6 +60,8 @@ static int	key_event(int key, void *object)
 		shift_or_zoom(key, data->matrix);
 	else if (key == 'c')
 		set_colors(data->matrix);
+	else if (key == 'x' || key == 'y' || key == 'z')
+		rotate(key, data->matrix);
 	reset_img(data);
 	draw_matrix(data, to_isometric);
 	mlx_put_image_to_window(data->mlx_connect, data->window,

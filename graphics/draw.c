@@ -30,9 +30,18 @@ static t_bgr	get_different(const t_bgr *start, const t_bgr *end
 {
 	t_bgr	result;
 
-	result.blue = (end->blue - start->blue) / max_steps;
-	result.green = (end->green - start->green) / max_steps;
-	result.red = (end->red - start->red) / max_steps;
+	if (max_steps == START)
+	{
+		result.blue = end->blue - start->blue;
+		result.green = end->green - start->green;
+		result.red = end->red - start->red;
+	}
+	else
+	{
+		result.blue = (end->blue - start->blue) / max_steps;
+		result.green = (end->green - start->green) / max_steps;
+		result.red = (end->red - start->red) / max_steps;
+	}
 	return (result);
 }
 

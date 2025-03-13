@@ -1,7 +1,7 @@
 NAME = fdf
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g3 -fsanitize=address
 #FRAMEWORKS = -framework OpenGl -framework AppKit #MacOS
 FRAMEWORKS = -lXext -lX11 -lm -lz #LINUX
 

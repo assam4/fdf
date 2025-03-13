@@ -45,3 +45,25 @@ void	shift_or_zoom(int key, t_matrix *matrix)
 			matrix->zoom = MIN_ZOOM;
 	}
 }
+
+void	rotate(int key, t_matrix *matrix)
+{
+	if (key == 'x')
+	{
+		matrix->rotate_x += ROTATE_STEP;
+		if (matrix->rotate_x == ANGLE_360)
+			matrix->rotate_x = START;
+	}
+	else if (key == 'y')
+	{
+		matrix->rotate_y += ROTATE_STEP;
+		if (matrix->rotate_y == ANGLE_360)
+			matrix->rotate_y = START;
+	}
+	else if (key == 'z')
+	{
+		matrix->rotate_z += ROTATE_STEP;
+		if (matrix->rotate_z == ANGLE_360)
+			matrix->rotate_z = START;
+	}
+}

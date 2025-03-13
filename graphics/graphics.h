@@ -21,6 +21,7 @@
 # define WIN_HEIGHT 1000
 # define SPACING 10
 # define ANGLE_30 0.523599
+# define ANGLE_360 360
 # define SIZEOF_BYTE 8
 
 # define BLACK 0x000000
@@ -32,6 +33,7 @@
 # define PURPLE 0x800080
 
 # define STEPS 5
+# define ROTATE_STEP (10 * (M_PI / 180))
 # define UNCHANGE 0
 # define ESC 65307
 # define UP 65362
