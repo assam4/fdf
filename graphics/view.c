@@ -5,10 +5,9 @@ static void	rotate(float angle, float *a, float *b, char flag)
 	float	temp_a;
 	float	temp_b;
 
-
 	temp_a = *a;
 	temp_b = *b;
-	if (flag == 'x') 
+	if (flag == 'x')
 	{
 		*a = temp_a;
 		*b = temp_a * sin(angle) + temp_b * cos(angle);
@@ -25,12 +24,55 @@ static void	rotate(float angle, float *a, float *b, char flag)
 	}
 }
 
-static int	set_iso(int *iso_x, int x, int y, const t_matrix *matrix)
+static int	set_perspective(int *per_x, int x, int y, const t_matrix *matrix)
 {
 	float	temp_x;
 	float	temp_y;
 	float	temp_z;
-	int	iso_y;
+	float	divisor;
+
+	temp_x = x * matrix->zoom;
+	temp_y = y * matrix->zoom;
+	temp_z = matrix->pixels[y][x].z;
+	rotate(matrix->rotate_x, &temp_y, &temp_z, 'x');
+	rotate(matrix->rotate_y, &temp_x, &temp_z, 'y');
+	rotate(matrix->rotate_z, &temp_x, &temp_y, 'z');
+	divisor = (temp_z + CAMERA_DISTANCE);
+	if (divisor == START)
+		divisor = MIN_DIVISOR;
+	*per_x = (temp_x * FOCAL_LENGTH) / divisor;
+	return ((temp_y * FOCAL_LENGTH) / divisor
+		- (temp_z * matrix->zscale));
+}
+
+void	to_perspective(t_matrix *matrix)
+{
+	int	y;
+	int	x;
+	int	per_x;
+	int	per_y;
+
+	y = -1;
+	while (++y < matrix->rows)
+	{
+		x = -1;
+		while (++x < matrix->columns)
+		{
+			per_y = set_perspective(&per_x, x, y, matrix);
+			matrix->pixels[y][x].x = WIN_WIDTH / 2 + per_x
+				+ matrix->shift_x;
+			matrix->pixels[y][x].y = WIN_HEIGHT / 2 + per_y
+				+ matrix->shift_y;
+		}
+	}
+}
+
+static int	set_isometric(int *iso_x, int x, int y, const t_matrix *matrix)
+{
+	float	temp_x;
+	float	temp_y;
+	float	temp_z;
+	int		iso_y;
 
 	temp_x = x;
 	temp_y = y;
@@ -57,38 +99,11 @@ void	to_isometric(t_matrix *matrix)
 		x = -1;
 		while (++x < matrix->columns)
 		{
-			iso_y = set_iso(&iso_x, x, y, matrix);
-		//	iso_x = (x - y) * cos(ANGLE_30) * (SPACING * matrix->zoom / 2);
-		//	iso_y = (x + y) * sin(ANGLE_30) * (SPACING * matrix->zoom / 2)
-		//		- (matrix->pixels[y][x].z * matrix->zscale);
+			iso_y = set_isometric(&iso_x, x, y, matrix);
 			matrix->pixels[y][x].x = WIN_WIDTH / 2 + iso_x
 				- ((matrix->columns - 1) * SPACING / 2) + matrix->shift_x;
 			matrix->pixels[y][x].y = WIN_HEIGHT / 2 + iso_y
 				- ((matrix->rows - 1) * SPACING / 2) + matrix->shift_y;
-		}
-	}
-}
-
-void	draw_matrix(t_data *img, void (*transform)(t_matrix *m))
-{
-	int			x;
-	int			y;
-	t_matrix	*matrix;
-
-	matrix = img->matrix;
-	transform(matrix);
-	y = -1;
-	while (++y < matrix->rows)
-	{
-		x = -1;
-		while (++x < matrix->columns)
-		{
-			if (x < matrix->columns - 1)
-				draw_line(img, matrix->pixels[y][x],
-					&(matrix->pixels[y][x + 1]));
-			if (y < matrix->rows - 1)
-				draw_line(img, matrix->pixels[y][x],
-					&(matrix->pixels[y + 1][x]));
 		}
 	}
 }

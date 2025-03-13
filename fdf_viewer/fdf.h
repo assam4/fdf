@@ -3,6 +3,19 @@
 
 # include "graphics.h"
 
+# define UNCHANGE 0
+# define STEPS 5
+# define ROTATE_STEP 0.174533
+# define ANGLE_360 360
+
+# define ESC 65307
+# define UP 65362
+# define DOWN 65364
+# define RIGHT 65363
+# define LEFT 65361
+# define ZOOM_IN 65451
+# define ZOOM_OUT 65453
+
 t_matrix	*get_matrix(const char *fname);
 void		run_fdf(t_data *data);
 void		reset_img(t_data *data);

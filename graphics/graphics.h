@@ -16,14 +16,22 @@
 # include "matrix.h"
 # include "mlx.h"
 
+//window utils
 # define TITLE "FDF project by saslanya"
 # define WIN_WIDTH 1200
 # define WIN_HEIGHT 1000
 # define SPACING 10
-# define ANGLE_30 0.523599
-# define ANGLE_360 360
 # define SIZEOF_BYTE 8
 
+// isometric projection
+# define ANGLE_30 0.523599
+
+// perspective proejction
+# define FOCAL_LENGTH 500.0
+# define CAMERA_DISTANCE 100.0
+# define MIN_DIVISOR 0.01
+
+// colors in hex (bgr)
 # define BLACK 0x000000
 # define BLUE 0x0000FF
 # define WHITE 0xFFFFFF
@@ -31,17 +39,6 @@
 # define YELLOW 0xFFFF00
 # define GREEN 0x00FF00
 # define PURPLE 0x800080
-
-# define STEPS 5
-# define ROTATE_STEP (10 * (M_PI / 180))
-# define UNCHANGE 0
-# define ESC 65307
-# define UP 65362
-# define DOWN 65364
-# define RIGHT 65363
-# define LEFT 65361
-# define ZOOM_IN 65451
-# define ZOOM_OUT 65453
 
 typedef struct s_data
 {
@@ -53,12 +50,19 @@ typedef struct s_data
 	int				row_len;
 	int				endian;
 	t_matrix		*matrix;
+	void			(*projection)(t_matrix *matrix);
 }	t_data;
 
-void	draw_line(t_data *img, t_point current, const t_point *end);
+// draw_utils functions
 void	color_transform(t_bgr *bgr, int *color, int swap_source);
 void	set_colors(t_matrix *matrix);
+void	calc_color(t_bgr *current, const t_bgr *diff);
+
+// draw functions
 void	draw_matrix(t_data *img, void (*transform)(t_matrix *m));
+
+// projections
 void	to_isometric(t_matrix *matrix);
+void	to_perspective(t_matrix *matrix);
 
 #endif

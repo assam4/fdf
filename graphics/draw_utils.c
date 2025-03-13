@@ -50,3 +50,10 @@ void	set_colors(t_matrix *matrix)
 		}
 	}
 }
+
+void	calc_color(t_bgr *current, const t_bgr *diff)
+{
+	current->blue += diff->blue;
+	current->green += diff->green;
+	current->red += diff->red;
+}

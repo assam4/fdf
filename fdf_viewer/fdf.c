@@ -62,8 +62,12 @@ static int	key_event(int key, void *object)
 		set_colors(data->matrix);
 	else if (key == 'x' || key == 'y' || key == 'z')
 		rotate(key, data->matrix);
+	else if (key == 'p')
+		data->projection = to_perspective;
+	else if (key == 'i')
+		data->projection = to_isometric;
 	reset_img(data);
-	draw_matrix(data, to_isometric);
+	draw_matrix(data, data->projection);
 	mlx_put_image_to_window(data->mlx_connect, data->window,
 		data->img, START, START);
 	return (SUCCESS);
@@ -72,7 +76,8 @@ static int	key_event(int key, void *object)
 void	run_fdf(t_data *data)
 {
 	set_win_config(data);
-	draw_matrix(data, to_isometric);
+	data->projection = to_isometric;
+	draw_matrix(data, data->projection);
 	mlx_put_image_to_window(data->mlx_connect, data->window,
 		data->img, START, START);
 	mlx_hook(data->window, 2, 1L << 0, key_event, data);
