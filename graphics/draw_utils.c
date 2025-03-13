@@ -7,9 +7,9 @@ void	color_transform(t_bgr *bgr, int *color, int swap_source)
 				| (bgr->blue << SIZEOF_BYTE * 2));
 	if (swap_source == TO_BGR && color)
 	{
-		bgr->red = (*color >> (SIZEOF_BYTE * 2)) & 0xFF;
+		bgr->blue = (*color >> (SIZEOF_BYTE * 2)) & 0xFF;
 		bgr->green = (*color >> SIZEOF_BYTE) & 0xFF;
-		bgr->blue = *color & 0xFF;
+		bgr->red = *color & 0xFF;
 	}
 }
 
@@ -48,5 +48,5 @@ void	set_colors(t_matrix *matrix)
 			pixel = &(matrix->pixels[y][x]);
 			change_color(pixel);
 		}
-        }
+	}
 }

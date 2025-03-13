@@ -13,8 +13,8 @@
 #ifndef GRAPHICS_H
 # define GRAPHICS_H
 
-# include "../matrix/matrix.h"
-# include "../library/minilibx/mlx.h"
+# include "matrix.h"
+# include "mlx.h"
 
 # define TITLE "FDF project by saslanya"
 # define WIN_WIDTH 1200
@@ -43,21 +43,20 @@
 
 typedef struct s_data
 {
-	void		*mlx_connect;
-	void		*window;
-	void		*img;
-	char		*addr;
-	int			pixel_sizeof;
-	int			row_len;
-	int			endian;
-	t_matrix	*matrix;
+	void			*mlx_connect;
+	void			*window;
+	void			*img;
+	char			*addr;
+	int				pixel_sizeof;
+	int				row_len;
+	int				endian;
+	t_matrix		*matrix;
 }	t_data;
 
-void     draw_line(t_data *img, t_point current, const t_point *end);
-void    color_transform(t_bgr *bgr, int *color, int swap_source);
+void	draw_line(t_data *img, t_point current, const t_point *end);
+void	color_transform(t_bgr *bgr, int *color, int swap_source);
 void	set_colors(t_matrix *matrix);
-void    draw_matrix(t_data *img, void (*transform)(t_matrix *m));
+void	draw_matrix(t_data *img, void (*transform)(t_matrix *m));
 void	to_isometric(t_matrix *matrix);
-//matrix manipulations
-int		key_event(int key, void *object);
+
 #endif

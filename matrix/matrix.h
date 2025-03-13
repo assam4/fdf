@@ -13,11 +13,11 @@
 #ifndef MATRIX_H
 # define MATRIX_H
 
-# include "../file_validation/validation.h"
+# include "validation.h"
 
 # define MIN_ZOOM 0.5
-# define MAX_ZOOM 10.0
-# define MIN_ZSCALE 0.5
+# define MAX_ZOOM 20.0
+# define MIN_ZSCALE 1.0
 
 # define TO_INT 33
 # define TO_BGR 22

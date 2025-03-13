@@ -11,11 +11,12 @@ MLX = ./library/minilibx/
 VALIDATION = ./file_validation/
 MATRIX = ./matrix/
 GRAPHICS = ./graphics/
-INCLUDES = -I$(LIBFT) -I$(GNL) -I$(MLX) -I$(VALIDATION) -I$(MATRIX) 
+FDF = ./fdf_viewer/
+INCLUDES = -I$(LIBFT) -I$(GNL) -I$(MLX) -I$(VALIDATION) -I$(MATRIX) -I$(GRAPHICS) -I$(FDF)
 
 SRCS = $(GNL)get_next_line.c $(GNL)get_next_line_utils.c $(VALIDATION)validation_utils.c \
        $(MATRIX)matrix.c $(GRAPHICS)draw.c $(GRAPHICS)draw_utils.c $(GRAPHICS)view.c \
-       $(GRAPHICS)view_manipulations.c main.c
+        $(FDF)/fdf.c  $(FDF)/fdf_utils.c main.c
 
 OBJS = $(SRCS:.c=.o)
 
@@ -24,7 +25,7 @@ all: $(NAME)
 $(NAME): $(LIBFT)libft.a $(MLX)libmlx.a $(OBJS)
 	$(CC) $(CFLAGS) $(INCLUDES) $(OBJS) -L$(MLX) -lmlx -L$(LIBFT) -lft $(FRAMEWORKS) -o $(NAME)
 
-%.o: %.c fdf.h $(GNL)get_next_line.h
+%.o: %.c
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 $(LIBFT)libft.a:

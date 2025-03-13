@@ -25,7 +25,8 @@ static int	get_drawline_params(int *distance, int *direction,
 	return (distance[0] - distance[1]);
 }
 
-static t_bgr	get_different(const t_bgr *start, const t_bgr *end, int max_steps)
+static t_bgr	get_different(const t_bgr *start, const t_bgr *end
+			, int max_steps)
 {
 	t_bgr	result;
 
@@ -41,7 +42,6 @@ static void	calc_color(t_bgr *current, const t_bgr *diff)
 	current->green += diff->green;
 	current->red += diff->red;
 }
-
 
 void	draw_line(t_data *img, t_point current, const t_point *end)
 {

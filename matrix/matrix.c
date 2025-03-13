@@ -53,7 +53,7 @@ void	set_zoom(t_matrix *matrix, int width, int height, int spacing)
 	float	mat_height;
 
 	mat_width = (matrix->columns - 1) * spacing;
-    	mat_height = (matrix->rows - 1) * spacing;
+	mat_height = (matrix->rows - 1) * spacing;
 	matrix->zoom = fmin((float)width / mat_width, (float)height / mat_height);
 	matrix->zoom *= 0.8;
 }
@@ -76,7 +76,7 @@ void	set_zscale(t_matrix *matrix, int height)
 	if (!max_z)
 		matrix->zscale = MIN_ZSCALE;
 	else
-		matrix->zscale = fmin(1.0, fmax(0.2, ((float)height / 4) / max_z));
+		matrix->zscale = fmin(2.0, fmax(0.2, ((float)height / 4) / max_z));
 }
 
 int	initialize_matrix(int fd, t_matrix **matrix)
