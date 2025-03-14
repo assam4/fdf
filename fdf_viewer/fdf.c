@@ -45,8 +45,8 @@ static int	close_window(t_data *data)
 	mlx_destroy_image(data->mlx_connect, data->img);
 	deallocate_matrix(&(data->matrix));
 	free(data);
-	exit(SUCCESS_EXIT);
-	return (SUCCESS_EXIT);
+	exit(EXIT_SUCCESS);
+	return (EXIT_SUCCESS);
 }
 
 static int	key_event(int key, void *object)

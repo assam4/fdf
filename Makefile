@@ -1,13 +1,18 @@
 NAME = fdf
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g3 -fsanitize=address
-#FRAMEWORKS = -framework OpenGl -framework AppKit #MacOS
-FRAMEWORKS = -lXext -lX11 -lm -lz #LINUX
+CFLAGS = -Wall -Wextra -Werror
+ifeq ($(shell uname), Darwin)
+	FRAMEWORKS = -framework OpenGl -framework AppKit #MacOS
+	MLX = ./library/minilibx/macos/
+endif
+ifeq ($(shell uname), Linux)
+	FRAMEWORKS = -lXext -lX11 -lm -lz #LINUX
+	MLX = ./library/minilibx/linux/
+endif
 
 LIBFT = ./library/libft/
 GNL = ./library/get_next_line/
-MLX = ./library/minilibx/
 VALIDATION = ./file_validation/
 MATRIX = ./matrix/
 GRAPHICS = ./graphics/

@@ -20,7 +20,6 @@
 # define ISOMETRIC 'i'
 # define PERSPECTIVE 'p'
 
-# define SUCCESS_EXIT 0
 # define FOPEN_ERR -1
 # define CLOSE_WINDOW 17
 # define KEY_PRESS 1L
