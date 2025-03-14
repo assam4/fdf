@@ -1,6 +1,7 @@
 FDF is a project of school 42 aimed at understanding the graphical interface and writing a program that works with windows and with the image.
 #### Highlights 
 The project is divided into several parts for better understanding and design .
+
 ● Library that we can use,
 
 ● Validation_checkers,
