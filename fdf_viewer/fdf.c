@@ -80,7 +80,7 @@ void	run_fdf(t_data *data)
 	draw_matrix(data, data->projection);
 	mlx_put_image_to_window(data->mlx_connect, data->window,
 		data->img, START, START);
-	mlx_hook(data->window, TWO, 1L << START, key_event, data);
-	mlx_hook(data->window, 17, START, close_window, data);
+	mlx_hook(data->window, TWO, KEY_PRESS << START, key_event, data);
+	mlx_hook(data->window, CLOSE_WINDOW, START, close_window, data);
 	mlx_loop(data->mlx_connect);
 }
