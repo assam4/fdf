@@ -17,6 +17,7 @@ The project is divided into several parts for better understanding and design .
 While working with the window, the user has the ability to manipulate the displayed object using these keys.
 
 ● ' ←, →, ↑, ↓ '  --   to move the object itself.
+
 <img src="instructions_view/moves.gif" width="400"/>
 
 
