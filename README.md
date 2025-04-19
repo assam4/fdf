@@ -1,6 +1,6 @@
 FDF is a project of school 42 aimed at understanding the graphical interface and writing a program that works with windows and with the image.
 
-<img src="/home/saslanya/Desktop/fdf/instructions_view/project_view.png" width="200"/>
+<img src="instructions_view/project_view.png" width="200"/>
 
 #### Highlights 
 The project is divided into several parts for better understanding and design .
