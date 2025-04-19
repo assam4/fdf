@@ -28,19 +28,25 @@ While working with the window, the user has the ability to manipulate the displa
 ● 'p'             --   transform to perspective projection.
 
 ● 'x'             --   rotate_x.
-<img src="instructions_view/rotate_x.gif" width="400"/>
+
+<img src="instructions_view/rotate_x.gif" width="300"/>
+
+
 
 ● 'y'             --   rotate_y.
+
 <img src="instructions_view/rotate_y.gif" width="400"/>
 
+
+
 ● 'z'             --   rotate_z.
+
 <img src="instructions_view/rotate_z.gif" width="400"/>
+
+
 
 ● '+'             --   zoom-in.
 
-<img src="instructions_view/zoom.gif" width="400"/>
-
 ● '-'             --   zoom-out.
-<video autoplay loop muted playsinline width="400">
-  <source src="instructions_view/zoom.webm" type="video/webm">
-</video>
+
+<img src="instructions_view/zoom.gif" width="300"/>
