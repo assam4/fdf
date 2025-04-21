@@ -18,7 +18,7 @@ While working with the window, the user has the ability to manipulate the displa
 
 ● ' ←, →, ↑, ↓ '  --   to move the object itself.
 
-<img src="instructions_view/moves.gif" width="400"/>
+<img src="instructions_view/moves.gif" width="600"/>
 
 
 
@@ -30,19 +30,19 @@ While working with the window, the user has the ability to manipulate the displa
 
 ● 'x'             --   rotate_x.
 
-<img src="instructions_view/rotate_x.gif" width="300"/>
+<img src="instructions_view/rotate_x.gif" width="600"/>
 
 
 
 ● 'y'             --   rotate_y.
 
-<img src="instructions_view/rotate_y.gif" width="400"/>
+<img src="instructions_view/rotate_y.gif" width="600"/>
 
 
 
 ● 'z'             --   rotate_z.
 
-<img src="instructions_view/rotate_z.gif" width="400"/>
+<img src="instructions_view/rotate_z.gif" width="600"/>
 
 
 
@@ -50,4 +50,47 @@ While working with the window, the user has the ability to manipulate the displa
 
 ● '-'             --   zoom-out.
 
-<img src="instructions_view/zoom.gif" width="300"/>
+<img src="instructions_view/zoom.gif" width="600"/>
+
+
+## How to Use on Linux
+
+### Prerequisites
+
+1. Install the required dependencies:
+   ```bash
+   sudo apt-get update -y
+   sudo apt-get install build-essential -y
+   sudo apt-get install xorg libxext-dev zlib1g-dev libbsd-dev -y
+   ```
+2. Clone the repository:
+   ```bash
+   git clone https://github.com/jesuismarie/FdF.git
+   ```
+3. Compile the program:
+   ```bash
+   make
+   ```
+4. Run FDF with a map from **test_maps**:
+   ```bash
+   ./fdf maps/[map-name.fdf]
+   ```
+
+---
+
+## How to Use on MacOS
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/jesuismarie/FdF.git
+   ```
+2. Compile the program:
+   ```bash
+   make
+   ```
+3. Run FDF with a map from **test_maps**:
+   ```bash
+   ./fdf maps/[map-name.fdf]
+   ```
+
+---
