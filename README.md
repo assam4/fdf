@@ -65,7 +65,7 @@ While working with the window, the user has the ability to manipulate the displa
    ```
 2. Clone the repository:
    ```bash
-   git clone https://github.com/jesuismarie/FdF.git
+   git clone https://github.com/assam4/fdf.git
    ```
 3. Compile the program:
    ```bash
@@ -73,7 +73,7 @@ While working with the window, the user has the ability to manipulate the displa
    ```
 4. Run FDF with a map from **test_maps**:
    ```bash
-   ./fdf maps/[map-name.fdf]
+   ./fdf example.fdf
    ```
 
 ---
@@ -82,7 +82,7 @@ While working with the window, the user has the ability to manipulate the displa
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/jesuismarie/FdF.git
+   git clone https://github.com/assam4/fdf.git
    ```
 2. Compile the program:
    ```bash
@@ -90,7 +90,7 @@ While working with the window, the user has the ability to manipulate the displa
    ```
 3. Run FDF with a map from **test_maps**:
    ```bash
-   ./fdf maps/[map-name.fdf]
+   ./fdf example.fdf
    ```
 
 ---
