@@ -49,8 +49,8 @@ void	to_perspective(t_matrix *matrix)
 {
 	int	y;
 	int	x;
-	int	per_x;
-	int	per_y;
+	int	per[2];
+	int	map_center[2];
 
 	y = LOOP_START;
 	while (++y < matrix->rows)
@@ -58,11 +58,13 @@ void	to_perspective(t_matrix *matrix)
 		x = LOOP_START;
 		while (++x < matrix->columns)
 		{
-			per_y = set_perspective(&per_x, x, y, matrix);
-			matrix->pixels[y][x].x = WIN_WIDTH / 2
-				+ per_x + matrix->shift_x;
-			matrix->pixels[y][x].y = WIN_HEIGHT / 2
-				+ per_y + matrix->shift_y;
+			per[1] = set_perspective(&per[0], x, y, matrix);
+			map_center[0] = (matrix->columns - 1) * matrix->zoom / 2;
+			map_center[1] = (matrix->rows - 1) * matrix->zoom / 2;
+			matrix->pixels[y][x].x = WIN_WIDTH / 2 + per[0]
+				+ matrix->shift_x - map_center[0];
+			matrix->pixels[y][x].y = WIN_HEIGHT / 2 + per[1]
+				+ matrix->shift_y - map_center[1];
 		}
 	}
 }
@@ -92,8 +94,8 @@ void	to_isometric(t_matrix *matrix)
 {
 	int	y;
 	int	x;
-	int	iso_x;
-	int	iso_y;
+	int	iso[2];
+	int	map_center[2];
 
 	y = LOOP_START;
 	while (++y < matrix->rows)
@@ -101,11 +103,13 @@ void	to_isometric(t_matrix *matrix)
 		x = LOOP_START;
 		while (++x < matrix->columns)
 		{
-			iso_y = set_isometric(&iso_x, x, y, matrix);
-			matrix->pixels[y][x].x = WIN_WIDTH / 2 + iso_x
-				- ((matrix->columns - 1) * SPACING / 2) + matrix->shift_x;
-			matrix->pixels[y][x].y = WIN_HEIGHT / 2 + iso_y
-				- ((matrix->rows - 1) * SPACING / 2) + matrix->shift_y;
+			iso[1] = set_isometric(&iso[0], x, y, matrix);
+			map_center[0] = (matrix->columns - 1) * SPACING * matrix->zoom / 2;
+			map_center[1] = (matrix->rows - 1) * SPACING * matrix->zoom / 2;
+			matrix->pixels[y][x].x = WIN_WIDTH / 2 + iso[0]
+				+ matrix->shift_x - map_center[0];
+			matrix->pixels[y][x].y = WIN_HEIGHT / 2 + iso[1]
+				+ matrix->shift_y - map_center[1];
 		}
 	}
 }
