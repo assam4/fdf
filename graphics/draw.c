@@ -2,12 +2,12 @@
 
 static void	draw_pixel(t_data *img, t_point *pixel)
 {
-	int	*location;
+	unsigned int	*location;
 
 	if (img && (pixel->x >= START && pixel->x < WIN_WIDTH)
 		&& (pixel->y >= START && pixel->y < WIN_HEIGHT))
 	{
-		location = (int *)(img->addr
+		location = (unsigned int *)(img->addr
 				+ (pixel->y * img->row_len + pixel->x
 					* (img->pixel_sizeof / SIZEOF_BYTE)));
 		color_transform(&(pixel->color), location, TO_INT);

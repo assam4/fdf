@@ -23,6 +23,10 @@
 
 # define LOOP_START -1
 
+# define TO_INT 33
+# define TO_BGR 22
+# define SIZEOF_BYTE 8
+
 typedef struct s_bgr
 {
 	unsigned char	blue;
@@ -43,6 +47,7 @@ typedef struct s_matrix
 	t_point		**pixels;
 	int			columns;
 	int			rows;
+	int			color_set;
 	int			shift_x;
 	int			shift_y;
 	float		rotate_x;
@@ -53,6 +58,8 @@ typedef struct s_matrix
 }	t_matrix;
 
 int		initialize_matrix(int fd, t_matrix **matrix);
+void	color_transform(t_bgr *bgr, unsigned int *color, int swap_source);
+void	fd_colors(const char **line, int y, int x, t_matrix *object);
 void	deallocate_matrix(t_matrix **matrix);
 void	set_zoom(t_matrix *matrix, int width, int height, int spacing);
 void	set_zscale(t_matrix *matrix, int height);

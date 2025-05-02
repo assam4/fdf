@@ -1,39 +1,35 @@
 #include "graphics.h"
 
-void	color_transform(t_bgr *bgr, int *color, int swap_source)
+void	change_color(t_point *pixel)
 {
-	if (swap_source == TO_INT && bgr)
-		*color = (bgr->red | (bgr->green << SIZEOF_BYTE)
-				| (bgr->blue << SIZEOF_BYTE * TWO));
-	if (swap_source == TO_BGR && color)
-	{
-		bgr->blue = (*color >> (SIZEOF_BYTE * TWO)) & 0xFF;
-		bgr->green = (*color >> SIZEOF_BYTE) & 0xFF;
-		bgr->red = *color & 0xFF;
-	}
+	if (pixel->color.blue > 255 - 10)
+		pixel->color.blue = 255 - pixel->color.blue + 10;
+	else
+		pixel->color.blue += 10;
+	if (pixel->color.green > 255 - 10)
+		pixel->color.green = 255 - pixel->color.green + 10;
+	else
+		pixel->color.green += 10;
+	if (pixel->color.red > 255 - 10)
+		pixel->color.red = 255 - pixel->color.blue + 10;
+	else
+		pixel->color.red += 10;
 }
 
-static void	change_color(t_point *pixel)
+void	set_def_colors(t_point *pixel)
 {
-	int	color;
+	unsigned int	color;
 
-	color_transform(&(pixel->color), &color, TO_INT);
-	if (pixel->z > START && color == BLUE)
-		color = YELLOW;
-	else if (pixel->z > START)
-		color = BLUE;
-	else if (pixel->z == START && color == WHITE)
-		color = GREEN;
-	else if (pixel->z == START)
-		color = WHITE;
-	else if (pixel->z < START && color == BORDO)
-		color = PURPLE;
-	else if (pixel->z < START)
-		color = BORDO;
-	color_transform(&(pixel->color), &color, TO_BGR);
+	if (pixel->z > START)
+		color = COLOR1;
+	if (pixel->z == START)
+		color = COLOR2;
+	else
+		color = COLOR3;
+	color_transform(&pixel->color, &color, TO_BGR);
 }
 
-void	set_colors(t_matrix *matrix)
+void	set_colors(t_matrix *matrix, void (*setter)(t_point *))
 {
 	int		y;
 	int		x;
@@ -46,9 +42,10 @@ void	set_colors(t_matrix *matrix)
 		while (++x < matrix->columns)
 		{
 			pixel = &(matrix->pixels[y][x]);
-			change_color(pixel);
+			setter(pixel);
 		}
 	}
+	matrix->color_set = SUCCESS;
 }
 
 void	calc_color(t_bgr *current, const t_bgr *diff)

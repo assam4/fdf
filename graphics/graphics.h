@@ -20,7 +20,6 @@
 # define WIN_WIDTH 1200
 # define WIN_HEIGHT 1000
 # define SPACING 10
-# define SIZEOF_BYTE 8
 
 // isometric projection
 # define ANGLE_30 0.523599
@@ -31,15 +30,10 @@
 # define MIN_DIVISOR 0.01
 
 // colors in hex (bgr)
-# define TO_INT 33
-# define TO_BGR 22
 # define BLACK 0x000000
-# define BLUE 0x0000FF
-# define WHITE 0xFFFFFF
-# define BORDO 0x800000
-# define YELLOW 0xFFFF00
-# define GREEN 0x00FF00
-# define PURPLE 0x800080
+# define COLOR1 0xFFFF00	
+# define COLOR2 0xFFFFFF
+# define COLOR3 0x000080
 
 # define ROTATE_X 'x'
 # define ROTATE_Y 'y'
@@ -58,9 +52,9 @@ typedef struct s_data
 	void			(*projection)(t_matrix *matrix);
 }	t_data;
 
-// draw_utils functions
-void	color_transform(t_bgr *bgr, int *color, int swap_source);
-void	set_colors(t_matrix *matrix);
+void	change_color(t_point *pixel);
+void	set_def_colors(t_point *pixel);
+void	set_colors(t_matrix *matrix, void (*setter)(t_point *));
 void	calc_color(t_bgr *current, const t_bgr *diff);
 
 // draw functions

@@ -2,7 +2,9 @@
 # define VALIDATION_H
 
 # include <fcntl.h>
+# include <stdbool.h>
 # include <math.h>
+# include <errno.h>
 # include "libft.h"
 # include "get_next_line.h"
 
@@ -18,7 +20,8 @@
 # define TWO 2
 # define THREE 3
 # define FOUR 4
+# define BASE "0123456789abcdefABCDEF"
 
-int	file_format_checking(int fd, int *col, int *row);
+bool	file_format_checking(int fd, int *col, int *row);
 
 #endif

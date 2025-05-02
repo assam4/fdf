@@ -1,25 +1,5 @@
 #include "fdf.h"
 
-void	reset_img(t_data *data)
-{
-	int	y;
-	int	x;
-	int	*location;
-
-	y = LOOP_START;
-	while (++y < WIN_HEIGHT)
-	{
-		x = LOOP_START;
-		while (++x < WIN_WIDTH)
-		{
-			location = (int *)(data->addr
-					+ (y * data->row_len + x
-						* (data->pixel_sizeof / SIZEOF_BYTE)));
-			*location = BLACK;
-		}
-	}
-}
-
 void	shift_or_zoom(int key, t_matrix *matrix)
 {
 	if (key == UP)

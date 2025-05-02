@@ -29,18 +29,17 @@ void	deallocate_matrix(t_matrix **matrix)
 
 static int	set_col_z(const char *line, int current_y, t_matrix *object)
 {
-	char	*str;
 	int		x;
 
 	x = LOOP_START;
 	while (++x < object->columns)
 	{
 		object->pixels[current_y][x].z = ft_atoi(line);
-		str = ft_itoa(object->pixels[current_y][x].z);
-		if (!str)
-			return (ALLOCATION_ERROR);
-		line += ft_strlen(str);
-		free(str);
+		if (*line && *line == '-')
+			++line;
+		while (*line && ft_isdigit(*line))
+			++line;
+		fd_colors(&line, current_y, x, object);
 		while (*line == SPACE || *line == NEWLINE)
 			++line;
 	}

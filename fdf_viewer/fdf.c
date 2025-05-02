@@ -12,9 +12,9 @@ t_matrix	*get_matrix(const char *fname)
 	fd = open(fname, O_RDONLY);
 	if (fd == FOPEN_ERR)
 		return (free(matrix), NULL);
-	status = file_format_checking(fd, &(matrix->columns), &(matrix->rows));
+	status = (int)file_format_checking(fd, &(matrix->columns), &(matrix->rows));
 	close(fd);
-	if (status != SUCCESS)
+	if (!status)
 		return (free(matrix), NULL);
 	fd = open(fname, O_RDONLY);
 	if (fd == FOPEN_ERR)
@@ -25,7 +25,8 @@ t_matrix	*get_matrix(const char *fname)
 		return (free(matrix), NULL);
 	set_zoom(matrix, WIN_WIDTH, WIN_HEIGHT, SPACING);
 	set_zscale(matrix, WIN_HEIGHT);
-	set_colors(matrix);
+	if (!matrix->color_set)
+		set_colors(matrix, set_def_colors);
 	return (matrix);
 }
 
@@ -59,14 +60,14 @@ static int	key_event(int key, void *object)
 	if ((key >= LEFT && key <= DOWN) || key == ZOOM_IN || key == ZOOM_OUT)
 		shift_or_zoom(key, data->matrix);
 	else if (key == CHANGE_COLORS)
-		set_colors(data->matrix);
+		set_colors(data->matrix, change_color);
 	else if (key == ROTATE_X || key == ROTATE_Y || key == ROTATE_Z)
 		rotate(key, data->matrix);
 	else if (key == PERSPECTIVE)
 		data->projection = to_perspective;
 	else if (key == ISOMETRIC)
 		data->projection = to_isometric;
-	reset_img(data);
+	ft_bzero(data->addr, data->row_len * WIN_HEIGHT);
 	draw_matrix(data, data->projection);
 	mlx_put_image_to_window(data->mlx_connect, data->window,
 		data->img, START, START);

@@ -81,9 +81,9 @@ static int	set_isometric(int *iso_x, int x, int y, const t_matrix *matrix)
 	rotate(matrix->rotate_y, &temp_x, &temp_z, ROTATE_Y);
 	rotate(matrix->rotate_z, &temp_x, &temp_y, ROTATE_Z);
 	*iso_x = (temp_x - temp_y) * cos(ANGLE_30)
-		* (SPACING * matrix->zoom / TWO);
+		* (SPACING * matrix->zoom / 2);
 	iso_y = (temp_x + temp_y) * sin(ANGLE_30)
-		* (SPACING * matrix->zoom / TWO)
+		* (SPACING * matrix->zoom / 2)
 		- (temp_z * (matrix->zscale));
 	return (iso_y);
 }
@@ -102,9 +102,9 @@ void	to_isometric(t_matrix *matrix)
 		while (++x < matrix->columns)
 		{
 			iso_y = set_isometric(&iso_x, x, y, matrix);
-			matrix->pixels[y][x].x = WIN_WIDTH / TWO + iso_x
+			matrix->pixels[y][x].x = WIN_WIDTH / 2 + iso_x
 				- ((matrix->columns - ONE) * SPACING / TWO) + matrix->shift_x;
-			matrix->pixels[y][x].y = WIN_HEIGHT / TWO + iso_y
+			matrix->pixels[y][x].y = WIN_HEIGHT / 2 + iso_y
 				- ((matrix->rows - ONE) * SPACING / TWO) + matrix->shift_y;
 		}
 	}

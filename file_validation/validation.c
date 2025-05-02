@@ -12,30 +12,59 @@
 
 #include "validation.h"
 
-static int	number_validation(char **line)
+static bool	number_validation(char **line)
 {
-	char		*str_num;
-	size_t		str_len;
-	int			is_equal;
+	int		count;
+	bool	is_signed;
 
-	str_num = ft_itoa(ft_atoi(*line));
-	if (!str_num)
-		return (ALLOCATION_ERROR);
-	str_len = ft_strlen(str_num);
-	if (ft_strncmp(*line, str_num, str_len) != IS_EQUAL)
-		is_equal = VALIDATION_ERROR;
-	else
+	count = START;
+	is_signed = false;
+	while (**line && **line == SPACE)
+		++(*line);
+	if (**line == '-')
 	{
-		*line += str_len;
-		is_equal = SUCCESS;
+		++(*line);
+		is_signed = true;
 	}
-	free(str_num);
-	return (is_equal);
+	while (ft_isdigit((*line)[count]))
+		++count;
+	(*line) += count;
+	if (count > 11
+		|| (count == 10 && !is_signed && *(*line - 1) > '7')
+		|| (count == 10 && is_signed && *(*line - 1) > '8'))
+		return (false);
+	return (true);
+}
+
+static bool	color_jump(char **line)
+{
+	int	count;
+
+	count = START;
+	while (**line == SPACE)
+		++(*line);
+	if (**line == ',')
+		++(*line);
+	else
+		return (true);
+	while (**line == SPACE)
+		++(*line);
+	if (**line == '0' && *(*line + 1) == 'x')
+		(*line) += 2;
+	while (ft_strchr(BASE, (*line)[count]))
+		++count;
+	if (count >= 1 && count <= 6)
+	{
+		(*line) += count;
+		return (true);
+	}
+	else
+		return (false);
 }
 
 static int	get_col_count(char *line)
 {
-	int			status;
+	bool		status;
 	int			ongoing_cols;
 
 	ongoing_cols = START;
@@ -48,37 +77,41 @@ static int	get_col_count(char *line)
 		else
 		{
 			status = number_validation(&line);
-			if (status == SUCCESS)
+			if (status)
 				++ongoing_cols;
 			else
-				return (status);
+				return (0);
+			status = color_jump(&line);
+			if (!status)
+				return (0);
 		}
 	}
 	return (ongoing_cols);
 }
 
-static int	set_cols_status(int status, int *col, int row)
+static bool	set_cols_status(int col_count, int *col, int row)
 {
-	if (status > VALIDATION_ERROR)
+	if (col_count)
 	{
 		if (*col == START && row == START)
 		{
-			*col = status;
-			return (SUCCESS);
+			*col = col_count;
+			return (true);
 		}
-		if (*col == status)
-			return (SUCCESS);
+		if (*col == col_count)
+			return (true);
 	}
-	return (VALIDATION_ERROR);
+	printf("invalid col status\n");
+	return (false);
 }
 
-int	file_format_checking(int fd, int *col, int *row)
+bool	file_format_checking(int fd, int *col, int *row)
 {
+	bool	status;
 	char	*ongoing_line;
-	int		status;
 	int		ongoing_col;
 
-	while (SUCCESS)
+	while (true)
 	{
 		ongoing_line = get_next_line(fd);
 		if (!ongoing_line)
@@ -86,11 +119,11 @@ int	file_format_checking(int fd, int *col, int *row)
 		ongoing_col = get_col_count(ongoing_line);
 		status = set_cols_status(ongoing_col, col, *row);
 		free(ongoing_line);
-		if (status != SUCCESS)
-			return (status);
+		if (!status)
+			return (false);
 		++(*row);
 	}
 	if (!*col && !*row)
-		return (VALIDATION_ERROR);
-	return (SUCCESS);
+		return (false);
+	return (true);
 }
