@@ -4,7 +4,6 @@
 # include <fcntl.h>
 # include <stdbool.h>
 # include <math.h>
-# include <errno.h>
 # include "libft.h"
 # include "get_next_line.h"
 
@@ -14,12 +13,6 @@
 # define START 0
 # define IS_EQUAL 0
 # define SPACE ' '
-
-# define ZERO 0
-# define ONE 1
-# define TWO 2
-# define THREE 3
-# define FOUR 4
 # define BASE "0123456789abcdefABCDEF"
 
 bool	file_format_checking(int fd, int *col, int *row);

@@ -6,7 +6,7 @@ t_matrix	*get_matrix(const char *fname)
 	int			fd;
 	int			status;
 
-	matrix = ft_calloc(ONE, sizeof(t_matrix));
+	matrix = ft_calloc(1, sizeof(t_matrix));
 	if (!matrix)
 		return (NULL);
 	fd = open(fname, O_RDONLY);
@@ -81,7 +81,7 @@ void	run_fdf(t_data *data)
 	draw_matrix(data, data->projection);
 	mlx_put_image_to_window(data->mlx_connect, data->window,
 		data->img, START, START);
-	mlx_hook(data->window, TWO, KEY_PRESS << START, key_event, data);
+	mlx_hook(data->window, 2, KEY_PRESS << START, key_event, data);
 	mlx_hook(data->window, CLOSE_WINDOW, START, close_window, data);
 	mlx_loop(data->mlx_connect);
 }

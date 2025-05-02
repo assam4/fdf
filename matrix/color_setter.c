@@ -40,10 +40,10 @@ void	color_transform(t_bgr *bgr, unsigned int *color, int swap_source)
 {
 	if (swap_source == TO_INT && bgr)
 		*color = (bgr->red | (bgr->green << SIZEOF_BYTE)
-				| (bgr->blue << SIZEOF_BYTE * TWO));
+				| (bgr->blue << SIZEOF_BYTE * 2));
 	if (swap_source == TO_BGR && color)
 	{
-		bgr->blue = (*color >> (SIZEOF_BYTE * TWO)) & 0xFF;
+		bgr->blue = (*color >> (SIZEOF_BYTE * 2)) & 0xFF;
 		bgr->green = (*color >> SIZEOF_BYTE) & 0xFF;
 		bgr->red = *color & 0xFF;
 	}

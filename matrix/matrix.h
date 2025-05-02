@@ -15,11 +15,11 @@
 
 # include "validation.h"
 
-# define MIN_ZOOM 0.5
-# define ZOOM_STEP 0.2
+# define MIN_ZOOM 0.1
+# define ZOOM_STEP 0.1
 # define MAX_ZOOM 20.0
-# define ZOOM_COEFF 0.8
-# define MIN_ZSCALE 2.0
+# define ZOOM_COEFF 0.6
+# define MIN_ZSCALE 1.5
 
 # define LOOP_START -1
 
@@ -57,7 +57,7 @@ typedef struct s_matrix
 	float		zscale;
 }	t_matrix;
 
-int		initialize_matrix(int fd, t_matrix **matrix);
+bool	initialize_matrix(int fd, t_matrix **matrix);
 void	color_transform(t_bgr *bgr, unsigned int *color, int swap_source);
 void	fd_colors(const char **line, int y, int x, t_matrix *object);
 void	deallocate_matrix(t_matrix **matrix);
