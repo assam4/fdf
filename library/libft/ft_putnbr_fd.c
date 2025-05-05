@@ -6,7 +6,7 @@
 /*   By: saslanya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 15:51:10 by saslanya          #+#    #+#             */
-/*   Updated: 2025/01/19 15:51:12 by saslanya         ###   ########.fr       */
+/*   Updated: 2025/01/21 23:22:17 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	ft_putnbr_fd(int n, int fd)
 {
 	unsigned int	nb;
 
-	if (fd < 0)
+	if (fd <= 0)
 		return ;
 	if (n < 0)
 	{

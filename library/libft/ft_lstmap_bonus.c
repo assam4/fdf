@@ -6,7 +6,7 @@
 /*   By: saslanya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 15:48:59 by saslanya          #+#    #+#             */
-/*   Updated: 2025/01/19 15:49:01 by saslanya         ###   ########.fr       */
+/*   Updated: 2025/02/11 21:50:13 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,18 @@ t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 {
 	t_list	*core;
 	t_list	*new_node;
+	void	*cont;
 
 	if (!lst || !f || !del)
 		return (NULL);
 	core = NULL;
 	while (lst)
 	{
-		new_node = ft_lstnew(f(lst->content));
+		cont = f(lst->content);
+		new_node = ft_lstnew(cont);
 		if (!new_node)
 		{
+			free(cont);
 			ft_lstclear(&core, del);
 			return (NULL);
 		}

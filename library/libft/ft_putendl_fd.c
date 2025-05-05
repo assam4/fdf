@@ -6,7 +6,7 @@
 /*   By: saslanya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 15:50:54 by saslanya          #+#    #+#             */
-/*   Updated: 2025/01/19 15:50:58 by saslanya         ###   ########.fr       */
+/*   Updated: 2025/01/21 23:33:35 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,6 @@
 
 void	ft_putendl_fd(char *s, int fd)
 {
-	if (s && fd >= 0)
-	{
-		ft_putstr_fd(s, fd);
-		write(fd, "\n", 1);
-	}
-	return ;
+	ft_putstr_fd(s, fd);
+	ft_putchar_fd('\n', fd);
 }
