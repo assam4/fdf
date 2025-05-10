@@ -67,10 +67,7 @@ static int	key_event(int key, void *object)
 		data->projection = to_perspective;
 	else if (key == ISOMETRIC)
 		data->projection = to_isometric;
-	ft_bzero(data->addr, data->row_len * WIN_HEIGHT);
-	draw_matrix(data, data->projection);
-	mlx_put_image_to_window(data->mlx_connect, data->window,
-		data->img, START, START);
+	data->is_changed = 1;
 	return (SUCCESS);
 }
 
@@ -83,5 +80,6 @@ void	run_fdf(t_data *data)
 		data->img, START, START);
 	mlx_hook(data->window, 2, KEY_PRESS << START, key_event, data);
 	mlx_hook(data->window, CLOSE_WINDOW, START, close_window, data);
+	mlx_loop_hook(data->mlx_connect, update_window, data);
 	mlx_loop(data->mlx_connect);
 }

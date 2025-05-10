@@ -45,3 +45,16 @@ void	rotate(int key, t_matrix *matrix)
 			matrix->rotate_z = START;
 	}
 }
+
+int	update_window(t_data *data)
+{
+	if (data->is_changed)
+	{
+		ft_bzero(data->addr, data->row_len * WIN_HEIGHT);
+		draw_matrix(data, data->projection);
+		mlx_put_image_to_window(data->mlx_connect, data->window,
+			data->img, START, START);
+		data->is_changed = START;
+	}
+	return (EXIT_SUCCESS);
+}

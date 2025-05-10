@@ -6,7 +6,7 @@
 /*   By: saslanya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 18:57:43 by saslanya          #+#    #+#             */
-/*   Updated: 2025/03/04 22:13:53 by saslanya         ###   ########.fr       */
+/*   Updated: 2025/05/10 17:25:25 by saslanya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ typedef struct s_data
 	int				pixel_sizeof;
 	int				row_len;
 	int				endian;
+	int				is_changed;
 	t_matrix		*matrix;
 	void			(*projection)(t_matrix *matrix);
 }	t_data;
